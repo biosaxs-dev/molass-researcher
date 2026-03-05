@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "molass-researcher"
+		},
+		{
+			"path": "../molass-library",
+			"name": "molass-library"
+		}
+	],
+	"settings": {
+		"editor.wordWrap": "on"
+	}
+}
