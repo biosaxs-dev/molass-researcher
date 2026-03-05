@@ -84,4 +84,4 @@ This experiment directly illustrates concepts from `modeling-vs-model_free`:
 - Higher S/N → sharper χ² landscape → potentially more reliable R-matrix determination
 - Bullets 3–4 of the "why hard" analysis: singularity barriers and optimization trapping are noise-sensitive
 
-See [MOLASS_RESEARCHER_PLAN.md](../../../modeling-vs-model_free/MOLASS_RESEARCHER_PLAN.md) for full planning context.
+See [RESEARCH_PLAN.md](../../RESEARCH_PLAN.md) for full planning context.
