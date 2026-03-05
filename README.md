@@ -4,6 +4,8 @@
 
 > Each notebook here documents a real question from a real collaborator, answered with real data, with the AI reasoning process visible.
 
+> **For AI assistants**: To initialize context, say **"Please read COPILOT-INIT.md to initialize"**
+
 ---
 
 ## What is this?

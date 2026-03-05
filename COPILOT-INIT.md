@@ -1,3 +1,4 @@
+<!-- AI Context Standard v0.5 - Adopted: 2026-03-06 -->
 # AI Assistant Initialization Guide
 
 **Purpose**: Initialize AI context for the molass-researcher repository  
@@ -20,8 +21,10 @@ This repo is one of the concrete cases demonstrating that the VS Code + Agent mo
 ## Key documents
 
 1. **[README.md](README.md)** — Repo overview, experiment list, and how to use this repo
-2. **[EXPERIMENT_LOG.md](EXPERIMENT_LOG.md)** — Chronological log of all experiments and findings
-3. **[DATA_SOURCES.md](DATA_SOURCES.md)** — Where data lives and how to access it (data is NOT in git)
+2. **[PROJECT_STATUS.md](PROJECT_STATUS.md)** — Current task and chronological research progress
+3. **[EXPERIMENT_LOG.md](EXPERIMENT_LOG.md)** — Chronological log of all experiments and findings
+4. **[DATA_SOURCES.md](DATA_SOURCES.md)** — Where data lives and how to access it (data is NOT in git)
+5. **[RESEARCH_PLAN.md](RESEARCH_PLAN.md)** — Repo concept and experiment planning
 
 ---
 
@@ -59,7 +62,20 @@ experiments/01_name/
 **01: Shimizu averaging order question** (March 2026)  
 🔬 In progress  
 → See `experiments/01_shimizu_averaging/README.md`  
-→ Planning document: `../modeling-vs-model_free/MOLASS_RESEARCHER_PLAN.md`
+→ Planning document: [RESEARCH_PLAN.md](RESEARCH_PLAN.md)
+
+---
+
+## Session resumption
+
+To resume work: say **"Please read COPILOT-INIT.md to initialize"**, then **"resume current task"**.
+
+AI derivation rule for Current Task:
+1. Read **[PROJECT_STATUS.md](PROJECT_STATUS.md)** — "🎯 Current Task" section
+2. If ✅ Complete → identify next logical step from latest achievement entry
+3. If 🔬 In progress → continue from where it left off
+
+**Update timing**: Human updates "Current Task" at session end when status changes.
 
 ---
 
