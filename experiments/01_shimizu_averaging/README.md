@@ -65,15 +65,34 @@ Note: All original datasets already have unusually good S/N compared to typical 
 
 | Notebook | Purpose | Status |
 |----------|---------|--------|
-| [01a_data_exploration.ipynb](01a_data_exploration.ipynb) | Visual QC: UV/SAXS traces for all 6 datasets | ⏳ |
-| [01b_molass_runs.ipynb](01b_molass_runs.ipynb) | Run MOLASS with default settings on all 6 | ⏳ |
+| [01a_data_exploration.ipynb](01a_data_exploration.ipynb) | Visual QC: UV/SAXS traces for all 6 datasets | ✅ |
+| [01b_molass_runs.ipynb](01b_molass_runs.ipynb) | Run MOLASS with default settings on all 6 | ✅ |
 | [01c_comparison_analysis.ipynb](01c_comparison_analysis.ipynb) | Pairwise comparison and interpretation | ⏳ |
 
 ---
 
 ## Findings
 
-*(To be filled in after analysis)*
+### 01b — MOLASS runs (March 6, 2026)
+
+| Dataset | Components | Rg (Å) | Proportions |
+|---------|-----------|---------|-------------|
+| Apo     | 1 | 33.34 | 1.000 |
+| Apo2    | 1 | 33.40 | 1.000 |
+| ATP     | 1 | 32.93 | 1.000 |
+| ATP2    | 1 | 32.82 | 1.000 |
+| MY      | 2 | 32.30, 32.32 | 0.947, 0.053 |
+| MY2     | 3 | 97.04, 53.62, 32.42 | 0.050, 0.055, 0.895 |
+
+**Key finding**: MY and MY2 give qualitatively different decompositions. Original MY: 2 components both with Rg = 32.3 Å (suspicious, likely artifact). Pre-averaged MY2: 3 components with Rg = 97, 53.6, 32.4 Å — plausible aggregate detection enabled by higher S/N.
+**Apo and ATP**: Rg agrees to within 0.1 Å between original and pre-averaged. No meaningful difference.
+
+### 01a — Data exploration (March 6, 2026)
+- All 6 datasets loaded successfully (needed to rename `Apo2.txt`→`Apo2_UV.txt`, `ATP2.txt`→`ATP2_UV.txt` to match `_UV.txt` convention).
+- Peak shapes are identical between original and pre-averaged pairs (normalized UV and SAXS overlays).
+- UV S/N is **identical** between pairs — SAXS frames appear to be the pre-averaged data; UV data may be unchanged.
+- **MY** has the most complex elution (2 peaks, lowest S/N ~91) → most informative test case for the averaging-order question.
+- All 6 datasets cleared for MOLASS runs → proceed to `01b`.
 
 ---
 

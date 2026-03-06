@@ -13,6 +13,8 @@ build/
 data/
 *.dat
 *.csv
+*.png
+*.pkl
 
 # Environment
 .env
