@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated**: March 6, 2026
+**Last Updated**: March 9, 2026
 
 > **For repo overview**: See [README.md](README.md)  
 > **For working conventions**: See [COPILOT-INIT.md](COPILOT-INIT.md)  
@@ -10,11 +10,32 @@
 
 ## 🎯 Current Task
 
-**Experiment 01 complete.** Ready for review and next experiment.
+**Experiment 01f in progress** — MY/MY2 baseline investigation. UV-specific anomaly (negative dip 270–300 nm, frames 1190–1340) characterised and set aside. Conclusion: default trim + linear baseline is safe. Next: proceed to AI-friendliness issue #2 (`.data` alias for `.M`) or commit all changes.
 
 ---
 
 ## 🎯 Latest Achievements
+
+### March 9, 2026: Experiment 01f — MY/MY2 baseline investigation; molass-library AI-friendliness issue #15
+
+**01f — MY/MY2 baseline investigation** (`01f_my_my2_baseline_investigation.ipynb`):
+- Used untrimmed data throughout; `plot_compact(baseline=True)`, UV channel comparison (290 nm vs 400 nm), and 3D UV surface plots
+- Observed localised negative UV dip at 270–300 nm, frames 1190–1340 (after the minor aggregate peak)
+- Distinguished from dc/dt baseline fluctuation (baseline-fluctuation-mystery): wavelength-selective, temporally localised, not derivative-shaped → UV-specific phenomenon (inner filter / RI artifact hypothesis)
+- **Conclusion**: Default trimming removes this anomaly without affecting baseline determination. Safe to proceed with default trim + linear baseline.
+- Observations recorded in notebook cell 9.
+
+**molass-library AI-friendliness improvement — Issue #15**:
+- Identified friction during notebook work: `uv.iv` / `uv.jv` opaque names
+- Fix: added `uv.wavelengths` and `uv.frames` properties to `UvData`; updated docstring with matrix orientation `M: (wavelengths × frames)`
+- Test added: `test_02_uv_friendly_aliases` in `tests/generic/010_DataObjects/test_010_SSD.py`. All 3 tests pass.
+- GitHub Issue [#15](https://github.com/biosaxs-dev/molass-library/issues/15) created via `gh` CLI.
+
+**Workflow infrastructure**:
+- `molass-review` repo added to workspace file (`molass-researcher.code-workspace`)
+- AI Improvement Feedback Loop documented in `molass-library/Copilot/copilot-guidelines.md` (Rule 11) and `API_IMPROVEMENTS.md` (GitHub Issue Status table)
+- Paper suggestions (Software Design section) recorded in `molass-review/review-discussions/paper-software-design-suggestions.md`
+- Practice workflow saved to persistent user memory (`/memories/molass_library_workflow.md`)
 
 ### March 6, 2026: Experiment 01 complete — all notebooks run, findings documented
 
