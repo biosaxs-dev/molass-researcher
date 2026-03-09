@@ -7,6 +7,10 @@
 		{
 			"path": "../molass-library",
 			"name": "molass-library"
+		},
+		{
+			"path": "../molass-review",
+			"name": "molass-review"
 		}
 	],
 	"settings": {
