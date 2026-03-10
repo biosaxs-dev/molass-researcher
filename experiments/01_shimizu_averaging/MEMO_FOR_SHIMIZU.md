@@ -161,3 +161,39 @@ By contrast, MY2 automatically finds genuine aggregate species (Rg = 97 and 54 �
 The monomer in the MY sample is identical in both datasets (Rg ≈ 32.4 Å, r = 0.99994 across all analysis modes). The pre-averaged MY2 additionally reveals **two aggregate populations (Rg = 97, 54 Å) that are below the detection threshold of the original data**. Pre-averaging improves aggregate detection without altering the dominant-component result.
 
 For Apo and ATP samples (single-component, clean), pre-averaging has no measurable effect.
+
+---
+
+## Per-Frame Rg Analysis (01g)
+
+**Notebook**: `01g_rg_curve_analysis.ipynb`
+
+`decomp.get_rg_curve()` was used to run an independent Guinier fit on every individual SAXS frame and plot the resulting Rg as a function of elution frame. This provides a more stringent monodispersity test than a single averaged Rg value.
+
+### MY vs MY2: monomer peak is flat and single-component
+
+Restricting to the contiguous window where total SAXS intensity ≥ 30 % of maximum (the dominant monomer peak), with the x-axis centred at the peak maximum:
+
+| Dataset | Median Rg (Å) | n frames in window | Profile shape |
+|---------|--------------|-------------------|---------------|
+| MY      | 32.3         | 79                | Flat, no gradient |
+| MY2     | 32.4         | 83                | Flat, no gradient |
+
+The two datasets agree to 0.1 Å. Neither shows any systematic Rg rise at the leading edge or fall at the trailing edge. **The dominant elution peak in both MY and MY2 is single-component (monodisperse)**. The 01c finding (monomer Rg identical between datasets) is now confirmed on a frame-by-frame basis, which is the strongest possible form of this conclusion.
+
+### Apo2, ATP, ATP2: small aggregate co-elutes at the leading edge
+
+A surprising finding emerged in the Apo2, ATP, and ATP2 datasets: the per-frame Rg rises to **40–50 Å** in the frames just before the main monomer peak, then falls back to ~33 Å across the peak itself. This leading-edge Rg elevation is absent in the corresponding originals (Apo, ATP).
+
+| Dataset | Rg at monomer peak (Å) | Rg at leading edge |
+|---------|----------------------|--------------------|
+| Apo     | ~33                  | flat               |
+| Apo2    | ~33                  | 40–50 Å (rising)   |
+| ATP     | ~33                  | flat               |
+| ATP2    | ~33                  | 40–50 Å (rising)   |
+
+This pattern is consistent with a small population of aggregates (Rg ~ 40–50 Å ≈ dimer?) eluting slightly earlier than the monomer — a well-known SEC artifact. These aggregate frames were included in the 1-component MOLASS decomposition (which averaged them into the monomer fit), because MOLASS found only one component in these samples and had no basis to exclude them.
+
+**Note**: It is initially puzzling that Apo2/ATP2 (the pre-averaged datasets) reveal this effect while Apo/ATP do not. One possible explanation: the SAXS pre-averaging increased signal quality enough to make the aggregate Rg signal in the leading-edge frames detectable — analogous to what happened with MY2 vs MY. If so, the original Apo/ATP runs also had aggregates co-eluting, but below the per-frame Guinier detection threshold.
+
+**Question for Shimizu**: Is a small aggregate population expected in the Apo and ATP samples? The Rg ~ 40–50 Å would be consistent with a dimer or small oligomer. Given that the MOLASS 1-component decomposition had no indication of this, it may have been overlooked in standard analysis.
