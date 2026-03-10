@@ -89,3 +89,16 @@ AI derivation rule for Current Task:
 | `molass-technical` | Theory exposition |
 | **`molass-researcher`** | **This repo: experimental research with real data** |
 | `baseline-fluctuation-mystery` | A specific open experimental mystery |
+
+---
+
+## molass-library Development Guidelines
+
+When work in this repo reveals friction with the `molass-library` API (opaque names, wrong guesses, missing aliases, undocumented behaviour), treat it as an actionable improvement. Follow the **AI Improvement Feedback Loop** (Rule 11 in `molass-library/Copilot/copilot-guidelines.md`):
+
+1. **Open a GitHub Issue first**: `gh issue create --title "AI-friendliness: ..." --label "enhancement"`
+2. Implement the fix in `molass-library` source
+3. Add a test and verify with `pytest`
+4. Close the issue: `gh issue close <N> --comment "Fix implemented and tested."`
+
+Pending and completed issues are tracked in `molass-library/Copilot/API_IMPROVEMENTS.md`.
