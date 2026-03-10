@@ -2,7 +2,7 @@
 
 **Collaborator**: Shimizu  
 **Date started**: March 6, 2026  
-**Status**: 🔬 In progress  
+**Status**: ✅ Complete  
 **Data**: `Dropbox\MOLASS\DATA\20260305` (see [DATA_SOURCES.md](../../DATA_SOURCES.md))
 
 ---
@@ -67,11 +67,38 @@ Note: All original datasets already have unusually good S/N compared to typical 
 |----------|---------|--------|
 | [01a_data_exploration.ipynb](01a_data_exploration.ipynb) | Visual QC: UV/SAXS traces for all 6 datasets | ✅ |
 | [01b_molass_runs.ipynb](01b_molass_runs.ipynb) | Run MOLASS with default settings on all 6 | ✅ |
-| [01c_comparison_analysis.ipynb](01c_comparison_analysis.ipynb) | Pairwise comparison and interpretation | ⏳ |
+| [01c_comparison_analysis.ipynb](01c_comparison_analysis.ipynb) | Pairwise comparison and interpretation | ✅ |
+| [01d_my_trimming_investigation.ipynb](01d_my_trimming_investigation.ipynb) | Trimming sensitivity on MY dataset | ✅ |
+| [01f_my_my2_baseline_investigation.ipynb](01f_my_my2_baseline_investigation.ipynb) | UV baseline anomaly investigation (MY/MY2) | ✅ |
+| [01g_rg_curve_analysis.ipynb](01g_rg_curve_analysis.ipynb) | Per-frame Rg vs elution frame — monodispersity check | 🔬 |
 
 ---
 
 ## Findings
+
+### 01f — MY/MY2 baseline investigation (March 9, 2026)
+
+- Used untrimmed data; compared UV channels at 290 nm vs 400 nm, and examined 3D UV surface plots
+- Observed localised negative UV dip at 270–300 nm, frames 1190–1340 (after the minor aggregate peak)
+- Characterised as UV-specific: wavelength-selective, temporally localised, not derivative-shaped → inner filter / RI artifact hypothesis
+- **Conclusion**: Default trimming removes this anomaly without affecting baseline determination. Default trim + linear baseline is safe.
+
+### 01d — MY trimming investigation (March 2026)
+
+- Compared default trim, wide trim (nsigmas=8), and manual jranges on MY decomposition
+- Trimming boundary changes affected component amplitudes but not Rg values or structural conclusions
+- **Conclusion**: Default trimming is appropriate for MY; no strong sensitivity.
+
+### 01c — Pairwise comparison (March 6, 2026)
+
+| Pair | ΔRg (Å) | r\_P(q) | Verdict |
+|------|---------|---------|--------|
+| Apo/Apo2 | 0.06 | 0.99999 | No meaningful effect |
+| ATP/ATP2 | 0.11 | 0.99999 | No meaningful effect |
+| MY monomer (all 3 modes) | — | ≥0.99994 | Identical monomer |
+| MY forced-3c | — | — | Extra components are noise artifacts |
+
+**Key finding**: Pre-averaging reveals aggregate populations (Rg = 97, 54 Å) in MY2 that are below the noise floor in the original MY. The monomer scattering is unchanged.
 
 ### 01b — MOLASS runs (March 6, 2026)
 
@@ -84,15 +111,14 @@ Note: All original datasets already have unusually good S/N compared to typical 
 | MY      | 2 | 32.30, 32.32 | 0.947, 0.053 |
 | MY2     | 3 | 97.04, 53.62, 32.42 | 0.050, 0.055, 0.895 |
 
-**Key finding**: MY and MY2 give qualitatively different decompositions. Original MY: 2 components both with Rg = 32.3 Å (suspicious, likely artifact). Pre-averaged MY2: 3 components with Rg = 97, 53.6, 32.4 Å — plausible aggregate detection enabled by higher S/N.
+**Key finding**: MY and MY2 give qualitatively different decompositions. Original MY: 2 components both with Rg ≈ 32.3 Å (suspicious, likely artifact). Pre-averaged MY2: 3 components with Rg = 97, 53.6, 32.4 Å — plausible aggregate detection enabled by higher S/N.
 **Apo and ATP**: Rg agrees to within 0.1 Å between original and pre-averaged. No meaningful difference.
 
 ### 01a — Data exploration (March 6, 2026)
 - All 6 datasets loaded successfully (needed to rename `Apo2.txt`→`Apo2_UV.txt`, `ATP2.txt`→`ATP2_UV.txt` to match `_UV.txt` convention).
 - Peak shapes are identical between original and pre-averaged pairs (normalized UV and SAXS overlays).
 - UV S/N is **identical** between pairs — SAXS frames appear to be the pre-averaged data; UV data may be unchanged.
-- **MY** has the most complex elution (2 peaks, lowest S/N ~91) → most informative test case for the averaging-order question.
-- All 6 datasets cleared for MOLASS runs → proceed to `01b`.
+- **MY** has the most complex elution (2 peaks, lowest S/N ~91) → most informative test case.
 
 ---
 

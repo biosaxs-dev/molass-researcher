@@ -4,6 +4,22 @@
 
 ---
 
+## 2026-03-XX: Experiment 01 — 01g Rg curve analysis started
+
+**Notebook**: `01g_rg_curve_analysis.ipynb`  
+**Question**: Is the Rg value flat across the dominant elution peak for all 6 datasets?
+
+**Motivation**: MOLASS's per-component Rg (from `get_rgs()`) is a single summary value. The new  
+`decomp.get_rg_curve()` API (issue #20) gives a per-frame Rg via Guinier analysis — this lets us  
+check whether the peak is truly monodisperse or shows Rg variation indicative of hidden components.
+
+**Method**: `decomp.get_rg_curve()` → plot Rg vs frame, overlaid with total XR elution curve.  
+High-quality fits (score ≥ median) shown separately to suppress noisy frames.
+
+**Status**: 🔬 In progress
+
+---
+
 ## 2026-03-06: Experiment 01 — 01c pairwise comparison complete
 
 **Notebook**: `01c_comparison_analysis.ipynb`
