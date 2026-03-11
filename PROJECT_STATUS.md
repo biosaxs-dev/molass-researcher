@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated**: March 9, 2026
+**Last Updated**: March 11, 2026
 
 > **For repo overview**: See [README.md](README.md)  
 > **For working conventions**: See [COPILOT-INIT.md](COPILOT-INIT.md)  
@@ -10,13 +10,44 @@
 
 ## 🎯 Current Task
 
-**Experiment 01f in progress** — MY/MY2 baseline investigation. UV-specific anomaly (negative dip 270–300 nm, frames 1190–1340) characterised and set aside. Conclusion: default trim + linear baseline is safe. Next: proceed to AI-friendliness issue #2 (`.data` alias for `.M`) or commit all changes.
+**Issue [#1](https://github.com/biosaxs-dev/molass-researcher/issues/1) pending** — Extend `02a_score_comparison.ipynb` to verify bufmask superiority on SAMPLE2, SAMPLE3, SAMPLE4 (ATP, MY, Apo2). Loop over all datasets, print summary table of `ratio_linear` vs `ratio_bufmask`.
 
 ---
 
 ## 🎯 Latest Achievements
 
-### March 9, 2026: Experiment 01f — MY/MY2 baseline investigation; molass-library AI-friendliness issue #15
+### March 11, 2026: Experiment 02a — bufmask baseline method developed and validated
+
+**02a — Positive score comparison** (`02a_score_comparison.ipynb`):
+
+- **Exact legacy match confirmed** (cell 23): fixed library (adaptive p_final) mean positive_ratio = 0.716, matches legacy simulation exactly to 3 decimal places.
+- **Buffer-mask polyfit proposed** (cell 24): new idea from GitHub Copilot (Claude Sonnet 4.5) — classify buffer frames once from high-SNR summed elution (`M.sum(axis=0)`), then fit linear baseline through those frames only per q-row. Much more direct than iterative LPM percentile descent.
+- **Results on SAMPLE1**:
+
+  | Method | mean positive_ratio |
+  |---|---|
+  | Old library (p_final 10%) | 0.899 |
+  | Adaptive p_final / legacy | 0.716 |
+  | **Bufmask (thr=0.10)** | **0.578** |
+  | Ideal | ~0.5 |
+
+- Threshold insensitive: thr=0.05–0.20 all cluster within 0.551–0.598.
+
+**molass-library — Issue [#23](https://github.com/biosaxs-dev/molass-library/issues/23) (stdout suppression)**:
+- `get_baseline2d()` printed `recognize_num_peaks` / `peak_width=` on every call
+- Fix: `contextlib.redirect_stdout(io.StringIO())` wrapper; test added; committed 71f1228.
+
+**molass-library — Issue [#24](https://github.com/biosaxs-dev/molass-library/issues/24) (bufmask method)**:
+- New `baseline_method='bufmask'` implemented in `molass/Baseline/BufmaskBaseline.py`
+- Wired into `Baseline2D.py` (`_bufmask_individual_axes_impl`, `CUSTOM_IMPL_DICT`)
+- Wired into `SsMatrixData.get_baseline2d()` (buffer_mask pre-computed from summed elution)
+- Test added: `test_09_bufmask_baseline` (ratio_bufmask < ratio_linear ✓)
+- Docstring includes concept explanation and Copilot attribution (commit c80f70e)
+- Committed 047403d, closed.
+
+**Next**: Issue [#1](https://github.com/biosaxs-dev/molass-researcher/issues/1) — verify bufmask superiority on SAMPLE2–4.
+
+
 
 **01f — MY/MY2 baseline investigation** (`01f_my_my2_baseline_investigation.ipynb`):
 - Used untrimmed data throughout; `plot_compact(baseline=True)`, UV channel comparison (290 nm vs 400 nm), and 3D UV surface plots
