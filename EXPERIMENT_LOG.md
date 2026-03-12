@@ -4,7 +4,43 @@
 
 ---
 
-## 2026-03-XX: Experiment 01 — 01g Rg curve analysis started
+## 2026-03-12: Experiment 02 — 02c Otsu adaptive threshold complete; XrData default changed
+
+**Notebook**: `02c_pybaselines_comparison.ipynb`
+
+**Question**: Can the fixed `BUFFIT_THRESHOLD=0.10` be replaced with an automatic threshold that
+adapts to each dataset's elution profile?
+
+**Method**: Otsu's method (1979) — exhaustive search over histogram bins for the split that
+maximises between-class variance $w_0 w_1 (\mu_0 - \mu_1)^2$. Applied to the normalised
+column-sum elution `M.sum(axis=0) / max`.
+
+**Results** (mean `positive_ratio` across all q-rows; lower → better baseline; ideal = 0.5):
+
+| Dataset | fixed 10% | Otsu | pct30% | arpls |
+|---------|-----------|------|--------|-------|
+| SAMPLE1 | 0.578 | **0.519** | 0.625 | 0.579 |
+| SAMPLE2 | 0.546 | **0.514** | 0.575 | 0.552 |
+| SAMPLE3 | 0.561 | **0.516** | 0.645 | 0.570 |
+| SAMPLE4 | 0.600 | **0.522** | 0.633 | 0.590 |
+| Apo     | 0.556 | **0.502** | 0.614 | 0.564 |
+| ATP     | 0.541 | **0.498** | 0.592 | 0.562 |
+| MY      | 0.529 | **0.496** | 0.634 | 0.558 |
+
+Otsu thresholds cluster 0.355–0.415 (vs fixed 0.10 which under-masks the buffer region).
+Otsu wins all 7 datasets; percentile-30% consistently loses (over-masks into the protein peak).
+
+**Library changes** (molass-library v0.8.5):
+- `_otsu_threshold()` added to `molass/Baseline/BuffitBaseline.py` (issue #25)
+- `SsMatrixData.get_baseline2d(threshold=None)` → `None` triggers Otsu; float overrides
+- `XrData.baseline_method` defaults to `'buffit'` (issue #26); `UvData` unchanged
+- Reference: N. Otsu, *IEEE Trans. SMC*, vol. 9, no. 1, pp. 62–66, 1979. DOI: 10.1109/TSMC.1979.4310076
+
+**Status**: ✅ Experiment 02c complete.
+
+---
+
+
 
 **Notebook**: `01g_rg_curve_analysis.ipynb`  
 **Question**: Is the Rg value flat across the dominant elution peak for all 6 datasets?

@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated**: March 11, 2026
+**Last Updated**: March 12, 2026
 
 > **For repo overview**: See [README.md](README.md)  
 > **For working conventions**: See [COPILOT-INIT.md](COPILOT-INIT.md)  
@@ -10,13 +10,27 @@
 
 ## 🎯 Current Task
 
-**Issue [#1](https://github.com/biosaxs-dev/molass-researcher/issues/1) pending** — Extend `02a_score_comparison.ipynb` to verify bufmask superiority on SAMPLE2, SAMPLE3, SAMPLE4 (ATP, MY, Apo2). Loop over all datasets, print summary table of `ratio_linear` vs `ratio_bufmask`.
+**Experiment 02 complete** ✅ — bufmask baseline shown superior across all 4 samples. No open issues.  
+→ Next: decide on Experiment 03 or write up findings from Experiment 02.
 
 ---
 
 ## 🎯 Latest Achievements
 
-### March 11, 2026: Experiment 02a — bufmask baseline method developed and validated
+### March 12, 2026: Experiment 02a — bufmask superiority confirmed across all 4 samples
+
+**02a — Multi-dataset verification** (Issue [#1](https://github.com/biosaxs-dev/molass-researcher/issues/1), closed):
+
+Added new cells to `02a_score_comparison.ipynb` looping over SAMPLE1–SAMPLE4. Results:
+
+| Sample | Label | ratio_linear | ratio_bufmask | improvement |
+|--------|-------|-------------|--------------|-------------|
+| SAMPLE1 | Apo  | 0.716 | 0.578 | +0.138 ✅ |
+| SAMPLE2 | ATP  | 0.639 | 0.546 | +0.092 ✅ |
+| SAMPLE3 | MY   | 0.702 | 0.561 | +0.140 ✅ |
+| SAMPLE4 | Apo2 | 0.702 | 0.600 | +0.103 ✅ |
+
+`bufmask < linear` for all 4 samples. Acceptance criterion met. Issue #1 closed.
 
 **02a — Positive score comparison** (`02a_score_comparison.ipynb`):
 
