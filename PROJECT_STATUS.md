@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated**: March 12, 2026
+**Last Updated**: March 12, 2026 (evening)
 
 > **For repo overview**: See [README.md](README.md)  
 > **For working conventions**: See [COPILOT-INIT.md](COPILOT-INIT.md)  
@@ -10,14 +10,41 @@
 
 ## 🎯 Current Task
 
-**Experiment 02 complete** ✅ — bufmask baseline shown superior across all 4 samples. No open issues.  
-→ Next: decide on Experiment 03 or write up findings from Experiment 02.
+**Experiment 02 in progress** — Buffit vs LPM comparison documented; LPM calibration bug fixed.  
+→ Next: decide on Experiment 03 or further LPM analysis (table coverage for narrow peaks).
 
 ---
 
 ## 🎯 Latest Achievements
 
-### March 12, 2026: Experiment 02a — bufmask superiority confirmed across all 4 samples
+### March 12, 2026 (evening): Experiment 02b/02d — Buffit vs LPM documented; LPM calibration fixed
+
+**02b — Buffit vs LPM comparison** (`02b_buffit_explanation.ipynb`):
+
+Comparison of Buffit (Otsu threshold) vs LPM (adaptive p_final, issue #4 fix) on SAMPLE1 and MY.
+
+| Dataset | LPM (adaptive) | Buffit (Otsu) | Ideal |
+|---------|:-:|:-:|:-:|
+| SAMPLE1 | 0.645 | 0.519 | 0.5 |
+| MY      | 0.854 | 0.496 | 0.5 |
+
+**molass-library — `_compute_adaptive_p_final` calibration fix** (`LpmBaseline.py`):
+
+Two bugs discovered and fixed in the adaptive p_final computation:
+1. **Wrong knot range**: `np.linspace(0, n, ...)` used instead of `np.linspace(x[0], x[-1], ...)` — caused silent `LSQUnivariateSpline` failure for frame-indexed data (MY's `jv` starts at 673), falling back to uncalibrated absolute noisiness.
+2. **Absolute instead of relative noisiness**: spline residual std was passed directly to the table, but the table was built with *relative* noisiness (noise/signal amplitude). Fix: divide by `np.abs(y).max()`.
+
+Effect: SAMPLE1 improved 0.716 → 0.645; MY improved 0.987 → 0.854. MY still trails Buffit because `size_sigma` ≈ 2.24 falls below the table's minimum (3), clamping p_final.
+
+**02d — Otsu threshold explanation** (`02d_otsu_explanation.ipynb`, new notebook):
+
+Explains the Otsu criterion, why it includes protein-tail frames for MY (bimodal histogram valley at ≈0.41), and why this does not degrade baseline quality. Three figures:
+- Fig 1: σ_B²(k) criterion + elution coloured by threshold
+- Fig 2: tail frame quantification
+- Fig 3 (new): per-row polyfit baselines for low-q and high-q rows, showing Otsu and fixed-0.10 baselines are nearly identical
+
+**Conclusion**: Buffit (Otsu + polyfit) clearly outperforms LPM even after calibration fix. The Otsu threshold is robust for general use.
+
 
 **02a — Multi-dataset verification** (Issue [#1](https://github.com/biosaxs-dev/molass-researcher/issues/1), closed):
 
